@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { dummyEmployeeData, DEPARTMENTS } from "../assets/assets";
-import { Plus, Search, X } from "lucide-react";
+import { Loader2Icon, Plus, Search, X } from "lucide-react";
 import EmployeeCard from "../components/EmployeeCard";
 import EmployeeForm from "../components/EmployeeForm";
 
@@ -26,10 +26,10 @@ function Employees() {
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  });
+  }, [selectedDept]);
   useEffect(() => {
     fetchEmployees();
-  }, []);
+  }, [fetchEmployees]);
 
   const filtered = employees.filter((emp) =>
     `${emp.firstName} ${emp.lastName} ${emp.position}`
