@@ -25,7 +25,7 @@ function Dashboard() {
         Failed to load dashboard
       </p>
     );
-  if (data.role === "ADMIN") {
+  if (data.role === "EMPLOYEE") {
     return <AdminDashboard data={data} />;
   } else {
     return <EmployeeDashboard data={data} />;
