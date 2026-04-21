@@ -7,6 +7,8 @@ import authRoutes from "./routes/authRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
 import profileRouter from "./routes/profileRoutes.js";
 import attendanceRouter from "./routes/attendanceRoutes.js";
+import leaveRouter from "./routes/leaveRoutes.js";
+import payslipsRouter from "./routes/payslipsRoutes.js";
 
 const app = express();
 
@@ -27,6 +29,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/employees", employeeRoutes);
 app.use("/api/profile", profileRouter);
 app.use("/api/attendance", attendanceRouter);
+app.use("/api/leave", leaveRouter);
+app.use("/api/payslip", payslipsRouter)
 
 await connectDB();
 // Start the server
