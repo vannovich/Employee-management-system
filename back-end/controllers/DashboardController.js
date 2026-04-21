@@ -2,7 +2,7 @@ import { DEPARTMENTS } from "../constants/departments.js";
 import Attendance from "../modals/Attendance.js";
 import Employee from "../modals/Employee.js";
 import LeaveApplication from "../modals/LeaveApplication.js";
-import PaySlip from "../modals/PaySlip";
+import PaySlip from "../modals/PaySlip.js";
 // Get dashboard for employee and admin
 // GET /api/dashboard
 
