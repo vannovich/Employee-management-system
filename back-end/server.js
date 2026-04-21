@@ -3,6 +3,10 @@ import cors from "cors";
 import "dotenv/config";
 import multer from "multer";
 import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import employeeRoutes from "./routes/employeeRoutes.js";
+import profileRouter from "./routes/profileRoutes.js";
+import attendanceRouter from "./routes/attendanceRoutes.js";
 
 const app = express();
 
@@ -18,6 +22,12 @@ app.use(multer().none());
 app.get("/", (req, res) => {
   res.send("Welcome to the Employee Management System API");
 });
+
+app.use("/api/auth", authRoutes);
+app.use("/api/employees", employeeRoutes);
+app.use("/api/profile", profileRouter);
+app.use("/api/attendance", attendanceRouter);
+
 await connectDB();
 // Start the server
 app.listen(PORT, () => {
