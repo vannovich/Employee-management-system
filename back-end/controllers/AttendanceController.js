@@ -1,6 +1,7 @@
 // Attendance Controller
 // Clock in/out for employee
 
+import { inngest } from "../inngest/index.js";
 import Attendance from "../modals/Attendance.js";
 import Employee from "../modals/Employee.js";
 
@@ -30,6 +31,11 @@ export const clockInOut = async (req, res) => {
         date: today,
         checkIn: now,
         status: isLate ? "LATE" : "PRESENT",
+      });
+      // Registering events
+      await inngest.send({
+        name: "employee/check-out",
+        data: { employeeId: employee._id, attendanceId: attendance._id },
       });
 
       return res.json({ success: true, type: "CHECK_IN", data: attendance });
