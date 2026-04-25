@@ -1,24 +1,26 @@
+
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 export const protect = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "Unauthorized: Invalid token" });
+
+    if (!authHeader?.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "No token" });
     }
+
     const token = authHeader.split(" ")[1];
-    const session = jwt.verify(token, process.env.JWT_SECRET);
-    if (!session) {
-      return res.status(401).json({ error: "Unauthorized: Invalid token" });
-    }
-    req.session = session;
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    req.user = decoded;
+
     next();
   } catch (error) {
-    return res.status(401).json({ error: "Unauthorized: Invalid token" });
+    return res.status(401).json({ message: "Invalid token" });
   }
 };
-
 export const protectAdmin = (req, res, next) => {
   if (req?.session?.role !== "ADMIN") {
     return res.status(403).json({ error: "Admin access required" });
