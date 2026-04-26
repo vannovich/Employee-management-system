@@ -22,8 +22,8 @@ export const protect = (req, res, next) => {
   }
 };
 export const protectAdmin = (req, res, next) => {
-  if (req?.session?.role !== "ADMIN") {
-    return res.status(403).json({ error: "Admin access required" });
+  if (req.user?.role !== "ADMIN") {
+    return res.status(403).json({ message: "Admin access required" });
   }
   next();
 };
