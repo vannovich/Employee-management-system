@@ -34,7 +34,7 @@ app.use("/api/employees", employeeRoutes);
 app.use("/api/profile", profileRouter);
 app.use("/api/attendance", attendanceRouter);
 app.use("/api/leave", leaveRouter);
-app.use("/api/payslip", payslipsRouter);
+app.use("/api/payslips", payslipsRouter);
 app.use("/api/dashboard", dashboardRouter);
 
 app.use("/api/inngest", serve({ client: inngest, functions }));

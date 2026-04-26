@@ -9,8 +9,9 @@ const leaveApplicationSchema = new mongoose.Schema(
     },
     type: { type: String, enum: ["SICK", "CASUAL", "ANNUAL"], reqiured: true },
     startDate: { type: Date, reqiured: true },
+    reason: { type: String, required: true },
     endDate: { type: Date, required: true },
-    reason: {
+    status: {
       type: String,
       enum: ["PENDING", "APPROVED", "REJECTED"],
       default: "PENDING",
