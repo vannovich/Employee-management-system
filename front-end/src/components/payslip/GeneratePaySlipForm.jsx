@@ -1,5 +1,7 @@
 import { Loader2, Plus, X } from "lucide-react";
 import React, { useState } from "react";
+import api from "../../api/axios";
+import toast from "react-hot-toast";
 
 function GeneratePaySlipForm({ employees, onSuccess }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,8 +18,32 @@ function GeneratePaySlipForm({ employees, onSuccess }) {
     );
 
   const handleSubmit = async (e) => {
-    e.preventdefault();
-  };
+  e.preventDefault(); // ✅ fixed
+
+  setLoading(true);
+
+  const formData = new FormData(e.currentTarget);
+  const data = Object.fromEntries(formData.entries());
+
+  // ✅ normalize values
+  data.month = Number(data.month);
+  data.year = Number(data.year);
+  data.basicSalary = Number(data.basicSalary);
+  data.allowances = Number(data.allowances || 0);
+  data.deductions = Number(data.deductions || 0);
+
+  try {
+    await api.post("/payslips", data);
+
+    toast.success("Payslip created successfully"); // ✅ feedback
+    setIsOpen(false);
+    onSuccess();
+  } catch (error) {
+    toast.error(error?.response?.data?.message || error?.message);
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="card max-w-lg w-full p-6 animate-slide-up">

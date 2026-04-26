@@ -22,7 +22,7 @@ function AdminDashboard({ data }) {
     },
     {
       icon: CalendarIcon,
-      value: data.totalDepartments,
+      value: data.todayAttendance,
       label: "Today's Attendance",
       description: "hecked in today",
     },
@@ -33,6 +33,7 @@ function AdminDashboard({ data }) {
       description: "Awaiting approval",
     },
   ];
+  // console.log("employee", data.role);
   return (
     <div className="animate-fade-in">
       <div className="page-header">

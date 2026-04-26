@@ -24,13 +24,14 @@ function EmployeeDashboard({ data }) {
     },
     {
       icon: DollarSignIcon,
-      value: data.latestPayslip
-        ? `${data.latestPayslip.netSalary?.toLocaleString()}`
+      value: data.latestPaySlip
+        ? `${data.latestPaySlip.netSalary?.toLocaleString()}`
         : "N/A",
       title: "Latest Payslip",
       subtitle: "Most recent payout",
     },
   ];
+  console.log(data.latestPaySlip.netSalary);
   return (
     <div className="animate-fade-in">
       <div className="page-header">

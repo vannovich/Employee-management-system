@@ -20,7 +20,7 @@ function App() {
           path="/login/admin"
           element={
             <LoginForm
-              role="admin"
+              role="ADMIN"
               title="Admin Portal"
               subtitle="Sign in to manage the organization"
             />
@@ -31,7 +31,7 @@ function App() {
           path="/login/employee"
           element={
             <LoginForm
-              role="employee"
+              role="EMPLOYEE"
               title="Employee Portal"
               subtitle="Sign in to access your account"
             />
