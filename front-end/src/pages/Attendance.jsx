@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { dummyAttendanceData } from "../assets/assets";
 import Loading from "../components/Loading";
 import CheckInButton from "../components/attendance/CheckInButton";
 import AttendanceStats from "../components/attendance/AttendanceStats";
 import AttendanceHistory from "../components/attendance/AttendanceHistory";
+import api from "../api/axios";
+import toast from "react-hot-toast";
 
 export default function Attendance() {
   const [history, setHistory] = useState([]);
@@ -11,20 +12,39 @@ export default function Attendance() {
   const [isDeleted, setIsDeleted] = useState(false);
 
   const fetchData = useCallback(async () => {
-    setHistory(dummyAttendanceData);
-    setTimeout(() => {
+    try {
+      const res = await api.get("/attendance");
+      const json = res.data;
+
+      setHistory(json.data || []);
+
+      // ⚠️ Only works if backend sends this (otherwise remove)
+      if (json.employee?.isDeleted) {
+        setIsDeleted(true);
+      }
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || error?.message || "Failed to load",
+      );
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   }, []);
+
+  // ✅ FIX: actually fetch data
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
   if (loading) return <Loading />;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+
+  // ✅ FIX: proper date comparison
+  const today = new Date().toDateString();
+
   const todayRecord = history.find(
     (r) => new Date(r.date).toDateString() === today,
   );
+
   return (
     <div className="animate-fade-in">
       <div className="page-header">
@@ -33,11 +53,12 @@ export default function Attendance() {
           Track your work hours and daily check-ins
         </p>
       </div>
+
       {isDeleted ? (
-        <div className="mb-8 p-6 bg-rose-50 border border-rose-200 rounded-2xl rext-center">
+        <div className="mb-8 p-6 bg-rose-50 border border-rose-200 rounded-2xl text-center">
           <p className="text-rose-600">
-            You can no longer clock in or out because your employee records have
-            been marked as deleted.
+            You can no longer clock in or out because your employee record has
+            been deactivated.
           </p>
         </div>
       ) : (
@@ -45,6 +66,7 @@ export default function Attendance() {
           <CheckInButton todayRecord={todayRecord} onAction={fetchData} />
         </div>
       )}
+
       <AttendanceStats history={history} />
       <AttendanceHistory history={history} />
     </div>
